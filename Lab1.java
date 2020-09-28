@@ -25,7 +25,7 @@ public class Main{
                     d1[i][j] = Math.cbrt(Math.cbrt(Math.cos(x[j])));
                 }
                 else{
-                    d1[i][j] = Math.pow(1/2 / (Math.sin(Math.sin(2*x[j]))+1), 3);
+                    d1[i][j] = Math.pow(0.5 / (Math.sin(Math.sin(2*x[j]))+1), 3);
                 }
             }
         }
