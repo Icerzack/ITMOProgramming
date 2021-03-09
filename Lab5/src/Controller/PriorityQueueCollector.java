@@ -21,6 +21,8 @@ import java.util.*;
  */
 public class PriorityQueueCollector {
 
+    String pathToFile;
+
     Queue<Person> personPriorityQueue;
 
     static ZonedDateTime zonedDateTimeOfCreation = ZonedDateTime.now(ZoneId.of("UTC"));
@@ -33,12 +35,12 @@ public class PriorityQueueCollector {
     /**
      * Конструктор - создает пустую очередь с компаратором для сравнения(в текущем коде это не используется)
      */
-    public PriorityQueueCollector() {
+    public PriorityQueueCollector(String path) {
         personPriorityQueue = new PriorityQueue<Person>(idComparator);
+        this.pathToFile = path;
     }
     /**
      * Comparator - компаратор для сравнения(в текущем коде это не используется)
-     * @see PriorityQueueCollector#PriorityQueueCollector()
      */
     private Comparator<Person> idComparator = new Comparator<Person>(){
 
@@ -51,7 +53,7 @@ public class PriorityQueueCollector {
      * addDataToQueue - создает пустую очередь, и добавляет в нее данные из файла.
      */
     public void addDataToQueue() {
-        parseXML("file.xml", personPriorityQueue);
+        parseXML(pathToFile, personPriorityQueue);
     }
     /**
      * parseXML - функция для парсинга XML.
@@ -156,6 +158,7 @@ public class PriorityQueueCollector {
             }
 
         } catch (ParserConfigurationException | SAXException | IOException ex) {
+            System.out.println("Ошибка в файле, перепроверьте синтаксис");
             ex.printStackTrace(System.out);
         }
     }

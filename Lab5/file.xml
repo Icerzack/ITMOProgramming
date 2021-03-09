@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <people>
     <person>
-        <name>Man</name>
+        <name>Mak</name>
         <coordinates>100;100</coordinates>
         <height>176</height>
-        <passportId>81-40-34319-4</passportId>
+        <passportId>999</passportId>
         <hairColor>BROWN</hairColor>
         <nationality>USA</nationality>
         <location>100;100;Makd</location>
@@ -13,9 +13,18 @@
         <name>Man</name>
         <coordinates>100;100</coordinates>
         <height>176</height>
-        <passportId>81-40-34319-4</passportId>
+        <passportId>8008</passportId>
         <hairColor>BROWN</hairColor>
         <nationality>USA</nationality>
         <location>100;100;Makd</location>
+    </person>
+    <person>
+        <name>Man</name>
+        <coordinates>100;100</coordinates>
+        <height>176</height>
+        <passportId>999</passportId>
+        <hairColor>BROWN</hairColor>
+        <nationality>USA</nationality>
+        <location>100;100;Mak</location>
     </person>
 </people>

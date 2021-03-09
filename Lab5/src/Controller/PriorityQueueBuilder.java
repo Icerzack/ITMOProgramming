@@ -74,12 +74,16 @@ public class PriorityQueueBuilder {
         DOMSource dom = new DOMSource(newDoc);
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
 
-        StreamResult result = new StreamResult(new File("file2.xml"));
-        transformer.transform(dom, result);
+        StringWriter outWriter = new StringWriter();
 
-//        PrintWriter writerObj = new PrintWriter(new File("file2.xml"));
-//        writerObj.write(newDoc.get);
-//        writerObj.flush();
-//        writerObj.close();
+        StreamResult result = new StreamResult(outWriter);
+        transformer.transform(dom, result);
+        StringBuffer sb = outWriter.getBuffer();
+        String finalString = sb.toString();
+
+        PrintWriter writerObj = new PrintWriter("file2.xml");
+        writerObj.write(finalString);
+        writerObj.flush();
+        writerObj.close();
     }
 }

@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        Controller.Commander commander = new Controller.Commander(new Controller.CollectionManager(System.getenv("Collman_Path")));
 //        commander.interactiveMod();
-        PriorityQueueCollector priorityQueueCollector = new PriorityQueueCollector();
+        PriorityQueueCollector priorityQueueCollector = new PriorityQueueCollector(System.getenv("Collman_Path"));
         priorityQueueCollector.addDataToQueue();
         CollectionManager collectionManager = new CollectionManager(priorityQueueCollector.getPersonPriorityQueue());
         Commander commander = new Commander(collectionManager);

@@ -1,12 +1,12 @@
 package Model;
+
+import java.time.ZonedDateTime;
 /**
  * Класс для хранения данных о людях
  * @autor Максим Кузнецов
  * @version 1.0
  */
-import java.time.ZonedDateTime;
-
-public class Person {
+public class Person implements Comparable<Person>{
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -98,4 +98,8 @@ public class Person {
         this.location.setName(name);
     }
 
+    @Override
+    public int compareTo(Person o) {
+        return this.name.compareTo(o.name);
+    }
 }
