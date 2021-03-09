@@ -388,8 +388,10 @@ public class CollectionManager {
      */
     public void save() {
         PriorityQueueBuilder priorityQueueBuilder = new PriorityQueueBuilder();
+        Scanner scanner = new Scanner(System.in);
+        String pathToFile = scanner.next();
         try {
-            priorityQueueBuilder.createXML(priorityQueue);
+            priorityQueueBuilder.createXML(priorityQueue, pathToFile);
             System.out.print("Коллекция сохранена.");
         } catch (Exception e) {
             e.printStackTrace();

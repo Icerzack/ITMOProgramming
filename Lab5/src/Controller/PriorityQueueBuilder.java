@@ -29,19 +29,19 @@ public class PriorityQueueBuilder {
     /**
      * createXML - функции, которая создает новый XML-документ.
      */
-    public void createXML(Queue<Person> personPriorityQueue) throws Exception {
+    public void createXML(Queue<Person> personPriorityQueue, String pathToNewFile) throws Exception {
 
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
         Document newDoc = builder.newDocument();
         Element root = newDoc.createElement("people");
         newDoc.appendChild(root);
-
-        while(!personPriorityQueue.isEmpty()){
+        Queue<Person> tempQueue = personPriorityQueue;
+        while(!tempQueue.isEmpty()){
             Element first = newDoc.createElement("person");
             root.appendChild(first);
 
-            Person person = personPriorityQueue.poll();
+            Person person = tempQueue.poll();
 
             Element name = newDoc.createElement("name");
             name.appendChild(newDoc.createTextNode(person.getName()));
@@ -81,7 +81,7 @@ public class PriorityQueueBuilder {
         StringBuffer sb = outWriter.getBuffer();
         String finalString = sb.toString();
 
-        PrintWriter writerObj = new PrintWriter("file2.xml");
+        PrintWriter writerObj = new PrintWriter(pathToNewFile);
         writerObj.write(finalString);
         writerObj.flush();
         writerObj.close();
