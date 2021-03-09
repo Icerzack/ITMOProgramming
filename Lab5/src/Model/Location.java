@@ -1,5 +1,9 @@
 package Model;
-
+/**
+ * Класс для хранения данных о локации
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 public class Location {
     private Double x; //Поле не может быть null
     private double y;

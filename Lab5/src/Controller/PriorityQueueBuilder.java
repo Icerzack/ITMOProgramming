@@ -1,5 +1,9 @@
 package Controller;
-
+/**
+ * Класс формирования\создания новой коллекции. Отвечает за создание нового XML-документа
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 import Model.Person;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +26,9 @@ public class PriorityQueueBuilder {
         }
     };
     //служебный метод для обработки данных очереди
-
+    /**
+     * createXML - функции, которая создает новый XML-документ.
+     */
     public void createXML(Queue<Person> personPriorityQueue) throws Exception {
 
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

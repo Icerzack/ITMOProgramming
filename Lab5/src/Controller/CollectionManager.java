@@ -1,3 +1,9 @@
+
+/**
+ * Класс реализации команд со свойствами.
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 package Controller;
 
 import Model.*;
@@ -33,29 +39,19 @@ public class CollectionManager {
         manual.put("filter_less_than_passport_i_d passportID", "вывести элементы, значение поля passportID которых меньше заданного");
     }
 
+    /**
+     * Конструктор - создание новой очереди с определенными значениями
+     * @param priorityQueue - экземпляр списка, с которым мы работаем
+     * @see CollectionManager#CollectionManager(Queue) ()
+     */
+
     public CollectionManager(Queue<Person> priorityQueue) {
         this.priorityQueue = priorityQueue;
     }
 
-    /*public Controller.CollectionManager(String collectionPath) throws IOException {
-        try {
-            if (collectionPath == null) throw new FileNotFoundException();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Путь до файла XML нужно передать через переменную окружения Collman_Path.");
-            System.exit(1);
-        }
-        File file = new File(collectionPath);
-        try {
-            if (file.exists()) this.xmlCollection = new File(collectionPath);
-            else throw new FileNotFoundException();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Файл по указанному пути не существует.");
-            System.exit(1);
-        }
-        wasStart = true;
-    }*/
-
-
+    /**
+     * Функция удаления первого элемента очереди {@link CollectionManager#remove_first()}
+     */
     public void remove_first() {
         try {
             priorityQueue.remove();
@@ -66,6 +62,9 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Функция добавления новго элемента в очередь {@link CollectionManager#add()} ()}
+     */
     public void add() {
         Scanner scanner = new Scanner(System.in);
         String name = null;
@@ -364,11 +363,17 @@ public class CollectionManager {
         priorityQueue.add(new Person(id,name,coordinates,zonedDateTimeNow,height,passportID,color,country,location));
     }
 
+    /**
+     * Функция полной очистки очереди {@link CollectionManager#clear()} ()}
+     */
     public void clear() {
         priorityQueue.clear();
         System.out.print("Коллекция очищена.");
     }
 
+    /**
+     * Функция удаления первого элемента очереди {@link CollectionManager#help()} ()}
+     */
     public void help() {
         System.out.println("Команды: \n");
         for (String s:manual.keySet()) {
@@ -376,6 +381,9 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Функция сохранения очереди {@link CollectionManager#save()} ()}
+     */
     public void save() {
         PriorityQueueBuilder priorityQueueBuilder = new PriorityQueueBuilder();
         try {
@@ -387,12 +395,18 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Функция отображения информации об очереди {@link CollectionManager#info()} ()}
+     */
     public void info() {
         System.out.println("Тип коллекции: "+priorityQueue.getClass());
         System.out.println("Размер коллекции: "+priorityQueue.size());
         System.out.println("Время создания коллекции: "+PriorityQueueCollector.zonedDateTimeOfCreation);
     }
 
+    /**
+     * Функция показа элементов очереди {@link CollectionManager#show()} ()}
+     */
     public void show() {
         Iterator<Person> iter = priorityQueue.iterator();
         Person person;
@@ -415,6 +429,9 @@ public class CollectionManager {
         else {System.out.println("Коллекция пуста.");}
     }
 
+    /**
+     * Функция обновления элемента очереди {@link CollectionManager#update(int)} ()}
+     */
     public void update(int id){
         Scanner scanner = new Scanner(System.in);
         Iterator<Person> iter = priorityQueue.iterator();

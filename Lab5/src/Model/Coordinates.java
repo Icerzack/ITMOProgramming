@@ -1,5 +1,9 @@
 package Model;
-
+/**
+ * Класс для хранения данных о координатах
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 public class Coordinates {
     private Double x; //Максимальное значение поля: 203, Поле не может быть null
     private long y;

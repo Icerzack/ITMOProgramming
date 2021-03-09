@@ -1,5 +1,9 @@
 package Model;
-
+/**
+ * Класс для хранения данных о людях
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 import java.time.ZonedDateTime;
 
 public class Person {
@@ -12,7 +16,9 @@ public class Person {
     private Color hairColor; //Поле не может быть null
     private Country nationality; //Поле не может быть null
     private Location location; //Поле не может быть null
-
+    /**
+     * Конструктор - создает человека с переданными ему параметрами.
+     */
     public Person(Integer id, String name, Coordinates coordinates, ZonedDateTime creationDate, float height, String passportID, Color hairColor, Country nationality, Location location) {
         this.id = id;
         this.name = name;

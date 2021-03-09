@@ -14,21 +14,32 @@ import java.io.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
-
+/**
+ * Класс извлечение данных для новой коллекции. Отвечает за создание коллекции из исходного документа
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 public class PriorityQueueCollector {
 
     Queue<Person> personPriorityQueue;
 
     static ZonedDateTime zonedDateTimeOfCreation = ZonedDateTime.now(ZoneId.of("UTC"));
-
+    /**
+     * Функция, которая позволяет получить экземпляр созданной очереди.
+     */
     public Queue<Person> getPersonPriorityQueue() {
         return personPriorityQueue;
     }
-
+    /**
+     * Конструктор - создает пустую очередь с компаратором для сравнения(в текущем коде это не используется)
+     */
     public PriorityQueueCollector() {
         personPriorityQueue = new PriorityQueue<Person>(idComparator);
     }
-
+    /**
+     * Comparator - компаратор для сравнения(в текущем коде это не используется)
+     * @see PriorityQueueCollector#PriorityQueueCollector()
+     */
     private Comparator<Person> idComparator = new Comparator<Person>(){
 
         @Override
@@ -36,11 +47,15 @@ public class PriorityQueueCollector {
             return c1.getId() - c2.getId();
         }
     };
-
+    /**
+     * addDataToQueue - создает пустую очередь, и добавляет в нее данные из файла.
+     */
     public void addDataToQueue() {
         parseXML("file.xml", personPriorityQueue);
     }
-
+    /**
+     * parseXML - функция для парсинга XML.
+     */
     private void parseXML(String pathToFile, Queue<Person> personPriorityQueue) {
         try {
 

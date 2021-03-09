@@ -3,6 +3,11 @@ package Controller;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Класс управления командами.
+ * @autor Максим Кузнецов
+ * @version 1.0
+ */
 public class Commander {
 
     private CollectionManager manager;
@@ -13,10 +18,19 @@ public class Commander {
         userCommand = "";
     }
 
+    /**
+     * Конструктор - создание нового "каммандера"
+     * @param manager - экземпляр "CollectionManager'а", с которым мы работаем
+     * @see CollectionManager#CollectionManager(Queue) ()
+     */
     public Commander(CollectionManager manager) {
         this.manager = manager;
     }
 
+    /**
+     * interactiveMod() - запуск интерактивного режима для работы с коллекциями"
+     * @see CollectionManager#CollectionManager(Queue) ()
+     */
     public void interactiveMod() throws IOException {
         try(Scanner commandReader = new Scanner(System.in)) {
             while (!userCommand.equals("exit")) {
