@@ -151,7 +151,7 @@ public class PriorityQueueCollector {
                         }
                     }
                     Random rand = new Random();
-                    int id = rand.nextInt(100);
+                    int id = rand.nextInt(100000);
                     ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
                     personPriorityQueue.add(new Person(id,hashMap.get("name")+"",coordinates,zonedDateTimeNow,Float.parseFloat(hashMap.get("height")+""),hashMap.get("passportId")+"",color,country,location));
                 }

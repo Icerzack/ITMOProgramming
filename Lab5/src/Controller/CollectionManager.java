@@ -16,7 +16,7 @@ public class CollectionManager {
     Queue<Person> priorityQueue;
     protected static TreeMap<String, String> manual;
 
-    {
+    static {
         manual = new TreeMap<>();
         manual.put("help", "вывести справку по доступным командам");
         manual.put("info", "вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)");
@@ -388,10 +388,8 @@ public class CollectionManager {
      */
     public void save() {
         PriorityQueueBuilder priorityQueueBuilder = new PriorityQueueBuilder();
-        Scanner scanner = new Scanner(System.in);
-        String pathToFile = scanner.next();
         try {
-            priorityQueueBuilder.createXML(priorityQueue, pathToFile);
+            priorityQueueBuilder.createXML(priorityQueue);
             System.out.print("Коллекция сохранена.");
         } catch (Exception e) {
             e.printStackTrace();
