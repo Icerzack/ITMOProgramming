@@ -25,7 +25,6 @@ public class PriorityQueueBuilder {
             return c1.getId() - c2.getId();
         }
     };
-    //служебный метод для обработки данных очереди
     /**
      * createXML - функции, которая создает новый XML-документ.
      */

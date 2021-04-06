@@ -7,15 +7,14 @@ package Controller;
 import java.io.*;
 import java.util.*;
 
-public class Commander {
+public class Commander implements OutputSetup {
 
     private CollectionManager manager;
     private String userCommand;
     private String[] finalUserCommand;
-    private int historyNum = 13;
+    private final int historyNum = 13;
     private int historyCounter = historyNum-1;
-    boolean triggered = false;
-    private String[] history = new String[historyNum];
+    private final String[] history = new String[historyNum];
     {
         userCommand = "";
     }
@@ -48,7 +47,8 @@ public class Commander {
      * interactiveMod() - запуск интерактивного режима для работы с коллекциями"
      * @see CollectionManager#CollectionManager(Queue) ()
      */
-    public void interactiveMod() throws IOException {
+
+    public void interactiveMode() throws IOException {
         try(Scanner commandReader = new Scanner(System.in)) {
             while (!userCommand.equals("exit")) {
                 userCommand = commandReader.nextLine();
@@ -85,12 +85,12 @@ public class Commander {
                             addToHistory(finalUserCommand[0]);
                             break;
                         case "history":
-                            System.out.println("Последние "+historyNum+" команд:");
+                            printInformation("Последние "+historyNum+" команд:");
                             for (int i = history.length-1; i >= 0; i--) {
                                 if(history[i]==null){
                                     continue;
                                 }
-                                System.out.println(history[i]);
+                                printInformation(history[i]);
                             }
                             addToHistory(finalUserCommand[0]);
                             break;
@@ -122,10 +122,10 @@ public class Commander {
                             manager.filter_less_than_passport_i_d(finalUserCommand[1]);
                             break;
                         default:
-                            System.out.println("Неопознанная команда. Наберите 'help' для справки.");
+                            printInformation("Неопознанная команда. Наберите 'help' для справки.");
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println("Отсутствует аргумент.");
+                    printInformation("Отсутствует аргумент.");
                 }
             }
         }
@@ -173,12 +173,12 @@ public class Commander {
                             addToHistory(finalUserCommand[0]);
                             break;
                         case "history":
-                            System.out.println("Последние "+historyNum+" команд:");
+                            printInformation("Последние "+historyNum+" команд:");
                             for (int i = history.length-1; i >= 0; i--) {
                                 if(history[i]==null){
                                     continue;
                                 }
-                                System.out.println(history[i]);
+                                printInformation(history[i]);
                             }
                             addToHistory(finalUserCommand[0]);
                             break;
@@ -198,7 +198,7 @@ public class Commander {
                             manager.save();
                             break;
                         case "execute_script":
-                            System.err.println("Обнаружена команда execute_script - выполнение скрипта приостановлено");
+                            printInformation("Обнаружена команда execute_script - выполнение скрипта приостановлено");
                             break;
                         case "filter_by_location":
                             manager.filter_by_location(finalUserCommand[1]);
@@ -210,10 +210,10 @@ public class Commander {
                             manager.filter_less_than_passport_i_d(finalUserCommand[1]);
                             break;
                         default:
-                            System.out.println("Неопознанная команда. Наберите 'help' для справки.");
+                            printInformation("Неопознанная команда. Наберите 'help' для справки.");
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println("Отсутствует аргумент.");
+                    printInformation("Отсутствует аргумент.");
                 }
             }
         }catch (Exception e){
@@ -234,5 +234,10 @@ public class Commander {
         int result = Objects.hash(manager, userCommand);
         result = 31 * result + Arrays.hashCode(finalUserCommand);
         return result;
+    }
+
+    @Override
+    public void printInformation(String info) {
+        System.out.println(info);
     }
 }

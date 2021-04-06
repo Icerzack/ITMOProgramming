@@ -19,10 +19,10 @@ import java.util.*;
  * @autor Максим Кузнецов
  * @version 1.0
  */
-public class PriorityQueueCollector {
+public class PriorityQueueCollector implements OutputSetup {
 
     String pathToFile;
-
+    static int finalId = 0;
     Queue<Person> personPriorityQueue;
 
     static ZonedDateTime zonedDateTimeOfCreation = ZonedDateTime.now(ZoneId.of("UTC"));
@@ -89,8 +89,13 @@ public class PriorityQueueCollector {
                                 String part1 = parts[0];
                                 String part2 = parts[1];
                                 coordinates = new Coordinates();
-                                coordinates.setX(Double.parseDouble(part1));
-                                coordinates.setY(Long.parseLong(part2));
+                                try {
+                                    coordinates.setX(Double.parseDouble(part1));
+                                    coordinates.setY(Long.parseLong(part2));
+                                }catch (Exception e){
+                                    printInformation("Поле coordinates содержит неверное значение - необходимо исправить");
+                                    return;
+                                }
                             }
                             else if((bookProp.getNodeName()+"").equals("hairColor")){
                                 switch (bookProp.getChildNodes().item(0).getTextContent()+"") {
@@ -110,7 +115,8 @@ public class PriorityQueueCollector {
                                         color = Color.BROWN;
                                         break;
                                     default:
-                                        color = Color.GREEN;
+                                        printInformation("Поле hairColor содержит неверное значение - необходимо исправить");
+                                        return;
                                 }
                             }
                             else if((bookProp.getNodeName()+"").equals("nationality")){
@@ -131,7 +137,8 @@ public class PriorityQueueCollector {
                                         country = Country.JAPAN;
                                         break;
                                     default:
-                                        country = Country.UNITED_KINGDOM;
+                                        printInformation("Поле nationality содержит неверное значение - необходимо исправить");
+                                        return;
                                 }
                             }
                             else if((bookProp.getNodeName()+"").equals("location")){
@@ -141,26 +148,44 @@ public class PriorityQueueCollector {
                                 String part2 = parts[1];
                                 String part3 = parts[2];
                                 location = new Location();
-                                location.setX(Double.parseDouble(part1));
-                                location.setY(Long.parseLong(part2));
-                                location.setName(part3);
+                                try {
+                                    location.setX(Double.parseDouble(part1));
+                                    location.setY(Long.parseLong(part2));
+                                    location.setName(part3);
+                                }catch (Exception e){
+                                    printInformation("Поле location содержит неверное значение - необходимо исправить");
+                                    return;
+                                }
                             }
                             else {
+                                if((bookProp.getNodeName()+"").equals("height")){
+                                    String string = bookProp.getChildNodes().item(0).getTextContent()+"";
+                                    try {
+                                        float f = Float.parseFloat(string);
+                                        hashMap.put("height",f);
+                                    }catch (Exception e){
+                                        printInformation("Поле height содержит неверное значение - необходимо исправить");
+                                        return;
+                                    }
+                                }
                                 hashMap.put(bookProp.getNodeName()+"",bookProp.getChildNodes().item(0).getTextContent()+"");
                             }
                         }
                     }
-                    Random rand = new Random();
-                    int id = rand.nextInt(100000);
+                    finalId+=1;
                     ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
-                    personPriorityQueue.add(new Person(id,hashMap.get("name")+"",coordinates,zonedDateTimeNow,Float.parseFloat(hashMap.get("height")+""),hashMap.get("passportId")+"",color,country,location));
+                    personPriorityQueue.add(new Person(finalId,hashMap.get("name")+"",coordinates,zonedDateTimeNow,Float.parseFloat(hashMap.get("height")+""),hashMap.get("passportId")+"",color,country,location));
                 }
             }
 
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-            System.out.println("Ошибка в файле, перепроверьте синтаксис");
+            printInformation("Файл с таким именем не найден/Ошибка в файле, перепроверьте синтаксис");
             ex.printStackTrace(System.out);
         }
     }
 
+    @Override
+    public void printInformation(String info) {
+        System.out.println(info);
+    }
 }

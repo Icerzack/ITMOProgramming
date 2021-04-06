@@ -3,7 +3,7 @@
     <person>
         <name>Mak</name>
         <coordinates>100;100</coordinates>
-        <height>176</height>
+        <height>176.0</height>
         <passportId>999</passportId>
         <hairColor>BROWN</hairColor>
         <nationality>USA</nationality>
@@ -21,7 +21,7 @@
     <person>
         <name>Man</name>
         <coordinates>100;100</coordinates>
-        <height>176</height>
+        <height>176.0</height>
         <passportId>999</passportId>
         <hairColor>BROWN</hairColor>
         <nationality>USA</nationality>

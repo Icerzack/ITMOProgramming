@@ -37,7 +37,7 @@ public class Main {
         priorityQueueCollector.addDataToQueue();
         CollectionManager collectionManager = new CollectionManager(priorityQueueCollector.getPersonPriorityQueue());
         Commander commander = new Commander(collectionManager);
-        commander.interactiveMod();
+        commander.interactiveMode();
 
     }
     protected static void setEnv(Map<String, String> newenv) throws Exception {

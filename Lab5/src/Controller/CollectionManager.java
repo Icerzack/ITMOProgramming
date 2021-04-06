@@ -11,7 +11,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-public class CollectionManager {
+public class CollectionManager implements Commands, OutputSetup {
 
     Queue<Person> priorityQueue;
     protected static TreeMap<String, String> manual;
@@ -44,38 +44,23 @@ public class CollectionManager {
         this.priorityQueue = priorityQueue;
     }
 
-    /*public Controller.CollectionManager(String collectionPath) throws IOException {
-        try {
-            if (collectionPath == null) throw new FileNotFoundException();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Путь до файла XML нужно передать через переменную окружения Collman_Path.");
-            System.exit(1);
-        }
-        File file = new File(collectionPath);
-        try {
-            if (file.exists()) this.xmlCollection = new File(collectionPath);
-            else throw new FileNotFoundException();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Файл по указанному пути не существует.");
-            System.exit(1);
-        }
-        wasStart = true;
-    }*/
     /**
      * Функция удаления первого элемента очереди {@link CollectionManager#remove_first()}
      */
+    @Override
     public void remove_first() {
         try {
             priorityQueue.remove();
-            System.out.println("первый элемент коллекции удалён.");
+            printInformation("первый элемент коллекции удалён.");
         }
         catch (NoSuchElementException ex) {
-            System.out.println("Нельзя удалить первый элемент коллекции. Коллекция пуста.");
+            printInformation("Нельзя удалить первый элемент коллекции. Коллекция пуста.");
         }
     }
     /**
      * Функция добавления новго элемента в очередь {@link CollectionManager#add()} ()}
      */
+    @Override
     public void add() {
         Scanner scanner = new Scanner(System.in);
         String name = null;
@@ -89,13 +74,13 @@ public class CollectionManager {
         long temp3 = 0;
         float height = 0;
         Long passportID = null;
-        System.out.println("Введите name");
+        printInformation("Введите name");
         while (scanner.hasNext()) {
             try {
                 name = scanner.next();
                 try {
                     Long.parseLong(name);
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 catch (Exception e){
@@ -109,21 +94,21 @@ public class CollectionManager {
 
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
-        System.out.println("Введите x");
+        printInformation("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
+        printInformation("Введите x");
         while (scanner.hasNext()||!scanner.equals("exit")) {
             try {
                 temp1 = scanner.nextDouble();
                 if(temp1<1||temp1>203){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -132,20 +117,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y");
+        printInformation("Введите y");
         while (scanner.hasNext()) {
             try {
                 temp3 = scanner.nextLong();
                 if(temp3==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -154,20 +139,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите height");
+        printInformation("Введите height");
         while (scanner.hasNext()) {
             try {
                 height = scanner.nextFloat();
                 if(height==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -175,15 +160,15 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите passportID");
+        printInformation("Введите passportID");
         while (scanner.hasNext()) {
             try {
                 passportID = scanner.nextLong();
@@ -192,24 +177,24 @@ public class CollectionManager {
                 while (iter.hasNext()) {
                     testPerson = iter.next();
                     if(testPerson.getPassportID().equals(passportID)){
-                        System.out.println("Человек с таким PassportID уже существует");
+                        printInformation("Человек с таким PassportID уже существует");
                         scanner.nextLine();
                     }
                 }
                 break;
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите hairColor");
-        System.out.println("Возможные варианты:");
-        System.out.println(java.util.Arrays.asList(Color.values()));
+        printInformation("Введите hairColor");
+        printInformation("Возможные варианты:");
+        printInformation(java.util.Arrays.asList(Color.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
@@ -231,7 +216,7 @@ public class CollectionManager {
                             color = Color.BROWN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -243,16 +228,16 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите nationality ");
-        System.out.println(java.util.Arrays.asList(Country.values()));
+        printInformation("Введите nationality ");
+        printInformation(java.util.Arrays.asList(Country.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
@@ -274,7 +259,7 @@ public class CollectionManager {
                             country = Country.JAPAN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -286,21 +271,21 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
-        System.out.println("Введите x");
+        printInformation("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
+        printInformation("Введите x");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.nextDouble();
                 if(temp1==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -309,20 +294,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y");
+        printInformation("Введите y");
         while (scanner.hasNext()) {
             try {
                 temp4 = scanner.nextDouble();
                 if(temp4==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -331,20 +316,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите name");
+        printInformation("Введите name");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
                 if(temp2==null){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -353,32 +338,33 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-
-        Random rand = new Random();
-        int id = rand.nextInt(100);
+        PriorityQueueCollector.finalId+=1;
+        int id = PriorityQueueCollector.finalId;
         ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
         priorityQueue.add(new Person(id,name,coordinates,zonedDateTimeNow,height,passportID+"",color,country,location));
     }
     /**
      * Функция полной очистки очереди {@link CollectionManager#clear()} ()}
      */
+    @Override
     public void clear() {
         priorityQueue.clear();
-        System.out.print("Коллекция очищена.");
+        printInformation("Коллекция очищена.");
     }
     /**
      * Функция вывода доступных команд {@link CollectionManager#help()} ()}
      */
+    @Override
     public void help() {
-        System.out.println("Команды: \n");
+        printInformation("Команды: \n");
         for (String s:manual.keySet()) {
             System.out.println(s+" -- "+manual.get(s));
         }
@@ -386,27 +372,30 @@ public class CollectionManager {
     /**
      * Функция сохранения очереди {@link CollectionManager#save()} ()}
      */
+    @Override
     public void save() {
         PriorityQueueBuilder priorityQueueBuilder = new PriorityQueueBuilder();
         try {
             priorityQueueBuilder.createXML(priorityQueue);
-            System.out.print("Коллекция сохранена.");
+            printInformation("Коллекция сохранена.");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.print("Коллекция НЕ сохранена.");
+            printInformation("Коллекция НЕ сохранена.");
         }
     }
     /**
      * Функция отображения информации об очереди {@link CollectionManager#info()} ()}
      */
+    @Override
     public void info() {
-        System.out.println("Тип коллекции: "+priorityQueue.getClass());
-        System.out.println("Размер коллекции: "+priorityQueue.size());
-        System.out.println("Время создания коллекции: "+PriorityQueueCollector.zonedDateTimeOfCreation);
+        printInformation("Тип коллекции: "+priorityQueue.getClass());
+        printInformation("Размер коллекции: "+priorityQueue.size());
+        printInformation("Время создания коллекции: "+PriorityQueueCollector.zonedDateTimeOfCreation);
     }
     /**
      * Функция показа элементов очереди {@link CollectionManager#show()} ()}
      */
+    @Override
     public void show() {
         Iterator<Person> iter = priorityQueue.iterator();
         Person person;
@@ -414,23 +403,24 @@ public class CollectionManager {
             while (iter.hasNext()) {
                 person = iter.next();
                 if(person == null) break;
-                System.out.println("Обработка Person: id=" + person.getId());
-                System.out.println(person.getName());
-                System.out.println(person.getCoordinates());
-                System.out.println(person.getCreationDate());
-                System.out.println(person.getHeight());
-                System.out.println(person.getPassportID());
-                System.out.println(person.getHairColor());
-                System.out.println(person.getNationality());
-                System.out.println(person.getLocation());
-                System.out.println();
+                printInformation("Обработка Person: id=" + person.getId());
+                printInformation(person.getName());
+                printInformation(person.getCoordinates());
+                printInformation(person.getCreationDate()+"");
+                printInformation(person.getHeight()+"");
+                printInformation(person.getPassportID());
+                printInformation(person.getHairColor()+"");
+                printInformation(person.getNationality()+"");
+                printInformation(person.getLocation());
+                printInformation("");
             }
         }
-        else {System.out.println("Коллекция пуста.");}
+        else {printInformation("Коллекция пуста.");}
     }
     /**
      * Функция обновления элемента очереди {@link CollectionManager#update(int)} ()}
      */
+    @Override
     public void update(int id){
         Scanner scanner = new Scanner(System.in);
         Iterator<Person> iter = priorityQueue.iterator();
@@ -442,7 +432,7 @@ public class CollectionManager {
             }
         }
         if(person==null){
-            System.err.println("Человек с id "+id+" не существует");
+            printInformation("Человек с id "+id+" не существует");
             return;
         }
         String name;
@@ -455,22 +445,22 @@ public class CollectionManager {
         long yC;
         float height;
         String passportID;
-        System.out.println("Введите name - текущее значение "+person.getName()+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите name - текущее значение "+person.getName()+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 name = scanner.next();
                 if(name==null){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else if(name.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else{
                     try {
                         Long.parseLong(name);
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                     catch (Exception e){
@@ -480,61 +470,61 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
-        System.out.println("Введите x - текущее значение "+person.getCoordinates().split(";")[0]+"(для сохранения текущего значения, введите YES)");
+        printInformation("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
+        printInformation("Введите x - текущее значение "+person.getCoordinates().split(";")[0]+"(для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else {
                     try {
                         xC = Double.parseDouble(temp1);
                         if (xC < 1 || xC > 203) {
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                         } else {
                             person.setCoordinates(xC, Long.parseLong(person.getCoordinates().split(";")[1]));
                             break;
                         }
                     } catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y - текущее значение "+person.getCoordinates().split(";")[1]+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите y - текущее значение "+person.getCoordinates().split(";")[1]+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else {
                     try {
                         yC = Long.parseLong(temp1);
                         if (yC==0) {
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                         } else {
                             if(xC!=0){
@@ -546,63 +536,63 @@ public class CollectionManager {
                             break;
                         }
                     } catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите height - текущее значение "+person.getHeight()+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите height - текущее значение "+person.getHeight()+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else {
                     try {
                         height = Float.parseFloat(temp1);
                         if (height<=0) {
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                         } else {
                             person.setHeight(height);
                             break;
                         }
                     } catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите passportID - текущее значение "+person.getPassportID()+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите passportID - текущее значение "+person.getPassportID()+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 passportID = scanner.next();
                 if(passportID==null){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else if(passportID.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else{
@@ -613,7 +603,7 @@ public class CollectionManager {
                         while (iter1.hasNext()) {
                             testPerson = iter1.next();
                             if(testPerson.getPassportID().equals(passportID)){
-                                System.err.println("Человек с таким PassportID уже существует");
+                                printInformation("Человек с таким PassportID уже существует");
                                 scanner.nextLine();
                                 }
                         }
@@ -621,28 +611,28 @@ public class CollectionManager {
                         break;
                     }
                     catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите hairColor - текущее значение "+person.getHairColor()+" (для сохранения текущего значения, введите YES)");
-        System.out.println("Возможные варианты:");
-        System.out.println(java.util.Arrays.asList(Color.values()));
+        printInformation("Введите hairColor - текущее значение "+person.getHairColor()+" (для сохранения текущего значения, введите YES)");
+        printInformation("Возможные варианты:");
+        printInformation(java.util.Arrays.asList(Color.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else if(temp1!=null) {
@@ -663,7 +653,7 @@ public class CollectionManager {
                             color = Color.BROWN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -676,22 +666,22 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите nationality - текущее значение "+person.getNationality()+" (для сохранения текущего значения, введите YES)");
-        System.out.println("Возможные варианты:");
-        System.out.println(java.util.Arrays.asList(Country.values()));
+        printInformation("Введите nationality - текущее значение "+person.getNationality()+" (для сохранения текущего значения, введите YES)");
+        printInformation("Возможные варианты:");
+        printInformation(java.util.Arrays.asList(Country.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else if(temp1!=null) {
@@ -712,7 +702,7 @@ public class CollectionManager {
                             country = Country.JAPAN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -725,54 +715,54 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
-        System.out.println("Введите x - текущее значение "+person.getLocation().split(";")[0]+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
+        printInformation("Введите x - текущее значение "+person.getLocation().split(";")[0]+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else {
                     try {
                         xL = Double.parseDouble(temp1);
                         if (xL==0) {
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                         } else {
                             person.setLocation(xL,Double.parseDouble(person.getLocation().split(";")[1]),person.getLocation().split(";")[2]);
                             break;
                         }
                     } catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y - текущее значение "+person.getLocation().split(";")[1]+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите y - текущее значение "+person.getLocation().split(";")[1]+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else {
@@ -786,36 +776,36 @@ public class CollectionManager {
                         }
                         break;
                     } catch (Exception e){
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите name - текущее значение "+person.getLocation().split(";")[2]+" (для сохранения текущего значения, введите YES)");
+        printInformation("Введите name - текущее значение "+person.getLocation().split(";")[2]+" (для сохранения текущего значения, введите YES)");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.next();
                 if(temp1==null){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else if(temp1.equals("YES")){
-                    System.err.println("Сохранено текущее значение");
+                    printInformation("Сохранено текущее значение");
                     break;
                 }
                 else{
                     try {
                         Long.parseLong(temp1);
-                        System.err.println("Invalid input! Try again:");
+                        printInformation("Invalid input! Try again:");
                         scanner.nextLine();
                     }
                     catch (Exception e){
@@ -840,11 +830,11 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
@@ -854,6 +844,7 @@ public class CollectionManager {
     /**
      * Функция удаления элемента очереди по id{@link CollectionManager#remove_by_id(int)} ()}
      */
+    @Override
     public void remove_by_id(int id) {
         if (priorityQueue.size() != 0) {
             try {
@@ -866,7 +857,7 @@ public class CollectionManager {
                     }
                 }
                 if (personToDelete == null) {
-                    System.err.println("Человек с id " + id + " не существует");
+                    printInformation("Человек с id " + id + " не существует");
                     return;
                 }
                 PriorityQueue<Person> updatedPriorityQueue = new PriorityQueue<Person>();
@@ -877,17 +868,18 @@ public class CollectionManager {
                 }
                 priorityQueue = updatedPriorityQueue;
             }catch (Exception e){
-                System.err.println("Возникла непредвиденная ошибка...");
+                printInformation("Возникла непредвиденная ошибка...");
             }
         }
-        else System.err.println("Коллекция пуста.");
+        else printInformation("Коллекция пуста.");
     }
     /**
      * Функция добавленмя элемента в очередь, с проверкой условия на name{@link CollectionManager#add_if_min()} ()}
      */
+    @Override
     public void add_if_min(){
         if (priorityQueue.isEmpty()){
-            System.err.println("Коллекция пуста.");
+            printInformation("Коллекция пуста.");
             return;
         }
         Collections.min(priorityQueue);
@@ -903,13 +895,13 @@ public class CollectionManager {
         long temp3 = 0;
         float height = 0;
         Long passportID = null;
-        System.out.println("Введите name");
+        printInformation("Введите name");
         while (scanner.hasNext()) {
             try {
                 name = scanner.next();
                 try {
                     Long.parseLong(name);
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 catch (Exception e){
@@ -923,21 +915,21 @@ public class CollectionManager {
 
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
-        System.out.println("Введите x");
+        printInformation("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)");
+        printInformation("Введите x");
         while (scanner.hasNext()||!scanner.equals("exit")) {
             try {
                 temp1 = scanner.nextDouble();
                 if(temp1<1||temp1>203){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -946,20 +938,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y");
+        printInformation("Введите y");
         while (scanner.hasNext()) {
             try {
                 temp3 = scanner.nextLong();
                 if(temp3==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -968,20 +960,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите height");
+        printInformation("Введите height");
         while (scanner.hasNext()) {
             try {
                 height = scanner.nextFloat();
                 if(height==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -989,15 +981,15 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите passportID");
+        printInformation("Введите passportID");
         while (scanner.hasNext()) {
             try {
                 passportID = scanner.nextLong();
@@ -1006,24 +998,24 @@ public class CollectionManager {
                 while (iter.hasNext()) {
                     testPerson = iter.next();
                     if(testPerson.getPassportID().equals(passportID)){
-                        System.out.println("Человек с таким PassportID уже существует");
+                        printInformation("Человек с таким PassportID уже существует");
                         scanner.nextLine();
                     }
                 }
                 break;
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите hairColor");
-        System.out.println("Возможные варианты:");
-        System.out.println(java.util.Arrays.asList(Color.values()));
+        printInformation("Введите hairColor");
+        printInformation("Возможные варианты:");
+        printInformation(java.util.Arrays.asList(Color.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
@@ -1045,7 +1037,7 @@ public class CollectionManager {
                             color = Color.BROWN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -1057,16 +1049,16 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите nationality ");
-        System.out.println(java.util.Arrays.asList(Country.values()));
+        printInformation("Введите nationality ");
+        printInformation(java.util.Arrays.asList(Country.values())+"");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
@@ -1088,7 +1080,7 @@ public class CollectionManager {
                             country = Country.JAPAN;
                             break;
                         default:
-                            System.err.println("Invalid input! Try again:");
+                            printInformation("Invalid input! Try again:");
                             scanner.nextLine();
                     }
                 }
@@ -1100,21 +1092,21 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
-        System.out.println("Введите x");
+        printInformation("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)");
+        printInformation("Введите x");
         while (scanner.hasNext()) {
             try {
                 temp1 = scanner.nextDouble();
                 if(temp1==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -1123,20 +1115,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите y");
+        printInformation("Введите y");
         while (scanner.hasNext()) {
             try {
                 temp4 = scanner.nextDouble();
                 if(temp4==0){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -1145,20 +1137,20 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
-        System.out.println("Введите name");
+        printInformation("Введите name");
         while (scanner.hasNext()) {
             try {
                 temp2 = scanner.next();
                 if(temp2==null){
-                    System.err.println("Invalid input! Try again:");
+                    printInformation("Invalid input! Try again:");
                     scanner.nextLine();
                 }
                 else{
@@ -1167,23 +1159,23 @@ public class CollectionManager {
                 }
             }
             catch (FormatterClosedException exp) {
-                System.out.println(exp);
+                printInformation(exp+"");
                 break;
             }
             catch (NoSuchElementException exp) {
-                System.err.println("Invalid input! Try again:");
+                printInformation("Invalid input! Try again:");
                 scanner.nextLine();
             }
         }
 
-        Random rand = new Random();
-        int id = rand.nextInt(100);
+        PriorityQueueCollector.finalId+=1;
+        int id = PriorityQueueCollector.finalId;
         ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
         Person person = new Person(id,name,coordinates,zonedDateTimeNow,height,passportID+"",color,country,location);
         for (Person p:priorityQueue) {
             if(person.compareTo(p) > 0){
-                System.err.println("Значение поля name больше, чем у наименьшего элемента этой коллекции");
-                System.err.println("Элемент не будет добавлен в коллекцию");
+                printInformation("Значение поля name больше, чем у наименьшего элемента этой коллекции");
+                printInformation("Элемент не будет добавлен в коллекцию");
                 return;
             }
         }
@@ -1192,6 +1184,7 @@ public class CollectionManager {
     /**
      * Функция вывода элементов очереди по их Location{@link CollectionManager#filter_by_location(String)} ()}
      */
+    @Override
     public void filter_by_location(String location){
         Iterator<Person> iter = priorityQueue.iterator();
         Person person;
@@ -1200,16 +1193,16 @@ public class CollectionManager {
                 person = iter.next();
                 if(person == null) break;
                 else if(person.getLocation().equals(location)){
-                    System.out.println("Обработка Person: location=" + person.getLocation());
-                    System.out.println(person.getName());
-                    System.out.println(person.getCoordinates());
-                    System.out.println(person.getCreationDate());
-                    System.out.println(person.getHeight());
-                    System.out.println(person.getPassportID());
-                    System.out.println(person.getHairColor());
-                    System.out.println(person.getNationality());
-                    System.out.println(person.getLocation());
-                    System.out.println();
+                    printInformation("Обработка Person: location=" + person.getLocation());
+                    printInformation(person.getName());
+                    printInformation(person.getCoordinates());
+                    printInformation(person.getCreationDate()+"");
+                    printInformation(person.getHeight()+"");
+                    printInformation(person.getPassportID());
+                    printInformation(person.getHairColor()+"");
+                    printInformation(person.getNationality()+"");
+                    printInformation(person.getLocation());
+                    printInformation("");
                 }
             }
         }
@@ -1218,6 +1211,7 @@ public class CollectionManager {
     /**
      * Функция вывода элементов очереди по их Name {@link CollectionManager#filter_contains_name(String)} ()}
      */
+    @Override
     public void filter_contains_name(String name){
         Iterator<Person> iter = priorityQueue.iterator();
         Person person;
@@ -1226,25 +1220,26 @@ public class CollectionManager {
                 person = iter.next();
                 if(person == null) break;
                 else if(person.getName().contains(name)){
-                    System.out.println("Обработка Person: name=" + person.getName());
-                    System.out.println(person.getId());
-                    System.out.println(person.getName());
-                    System.out.println(person.getCoordinates());
-                    System.out.println(person.getCreationDate());
-                    System.out.println(person.getHeight());
-                    System.out.println(person.getPassportID());
-                    System.out.println(person.getHairColor());
-                    System.out.println(person.getNationality());
-                    System.out.println(person.getLocation());
-                    System.out.println();
+                    printInformation("Обработка Person: name=" + person.getName());
+                    printInformation(person.getId()+"");
+                    printInformation(person.getName());
+                    printInformation(person.getCoordinates());
+                    printInformation(person.getCreationDate()+"");
+                    printInformation(person.getHeight()+"");
+                    printInformation(person.getPassportID());
+                    printInformation(person.getHairColor()+"");
+                    printInformation(person.getNationality()+"");
+                    printInformation(person.getLocation());
+                    printInformation("");
                 }
             }
         }
-        else {System.out.println("Коллекция пуста.");}
+        else {printInformation("Коллекция пуста.");}
     }
     /**
      * Функция вывода элементов очереди по их Location, который меньше заданного значения {@link CollectionManager#filter_less_than_passport_i_d(String)} ()}
      */
+    @Override
     public void filter_less_than_passport_i_d(String passportID){
         Iterator<Person> iter = priorityQueue.iterator();
         Person person;
@@ -1253,19 +1248,24 @@ public class CollectionManager {
                 person = iter.next();
                 if(person == null) break;
                 else if(Long.parseLong(person.getPassportID())<Long.parseLong(passportID)){
-                    System.out.println("Обработка Person: passportID < "+passportID+"=" + person.getPassportID());
-                    System.out.println(person.getName());
-                    System.out.println(person.getCoordinates());
-                    System.out.println(person.getCreationDate());
-                    System.out.println(person.getHeight());
-                    System.out.println(person.getPassportID());
-                    System.out.println(person.getHairColor());
-                    System.out.println(person.getNationality());
-                    System.out.println(person.getLocation());
-                    System.out.println();
+                    printInformation("Обработка Person: passportID < "+passportID+"=" + person.getPassportID());
+                    printInformation(person.getName());
+                    printInformation(person.getCoordinates());
+                    printInformation(person.getCreationDate()+"");
+                    printInformation(person.getHeight()+"");
+                    printInformation(person.getPassportID());
+                    printInformation(person.getHairColor()+"");
+                    printInformation(person.getNationality()+"");
+                    printInformation(person.getLocation());
+                    printInformation("");
                 }
             }
         }
-        else {System.out.println("Коллекция пуста.");}
+        else {printInformation("Коллекция пуста.");}
+    }
+
+    @Override
+    public void printInformation(String info) {
+        System.out.println(info);
     }
 }
