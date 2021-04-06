@@ -23,6 +23,7 @@ public class PriorityQueueCollector implements OutputSetup {
 
     String pathToFile;
     static int finalId = 0;
+    boolean errorTrigger = false;
     Queue<Person> personPriorityQueue;
 
     static ZonedDateTime zonedDateTimeOfCreation = ZonedDateTime.now(ZoneId.of("UTC"));
@@ -93,8 +94,8 @@ public class PriorityQueueCollector implements OutputSetup {
                                     coordinates.setX(Double.parseDouble(part1));
                                     coordinates.setY(Long.parseLong(part2));
                                 }catch (Exception e){
-                                    printInformation("Поле coordinates содержит неверное значение - необходимо исправить");
-                                    return;
+                                    printInformation("Поле coordinates у объекта №"+(i-i/2)+" содержит неверное значение - необходимо исправить");
+                                    errorTrigger = true;
                                 }
                             }
                             else if((bookProp.getNodeName()+"").equals("hairColor")){
@@ -115,8 +116,8 @@ public class PriorityQueueCollector implements OutputSetup {
                                         color = Color.BROWN;
                                         break;
                                     default:
-                                        printInformation("Поле hairColor содержит неверное значение - необходимо исправить");
-                                        return;
+                                        printInformation("Поле hairColor у объекта №"+(i-i/2)+" содержит неверное значение - необходимо исправить");
+                                        errorTrigger = true;
                                 }
                             }
                             else if((bookProp.getNodeName()+"").equals("nationality")){
@@ -137,8 +138,8 @@ public class PriorityQueueCollector implements OutputSetup {
                                         country = Country.JAPAN;
                                         break;
                                     default:
-                                        printInformation("Поле nationality содержит неверное значение - необходимо исправить");
-                                        return;
+                                        printInformation("Поле nationality у объекта №"+(i-i/2)+" содержит неверное значение - необходимо исправить");
+                                        errorTrigger = true;
                                 }
                             }
                             else if((bookProp.getNodeName()+"").equals("location")){
@@ -153,8 +154,8 @@ public class PriorityQueueCollector implements OutputSetup {
                                     location.setY(Long.parseLong(part2));
                                     location.setName(part3);
                                 }catch (Exception e){
-                                    printInformation("Поле location содержит неверное значение - необходимо исправить");
-                                    return;
+                                    printInformation("Поле location у объекта №"+(i-i/2)+" содержит неверное значение - необходимо исправить");
+                                    errorTrigger = true;
                                 }
                             }
                             else {
@@ -164,23 +165,24 @@ public class PriorityQueueCollector implements OutputSetup {
                                         float f = Float.parseFloat(string);
                                         hashMap.put("height",f);
                                     }catch (Exception e){
-                                        printInformation("Поле height содержит неверное значение - необходимо исправить");
-                                        return;
+                                        printInformation("Поле height у объекта №"+(i-i/2)+" содержит неверное значение - необходимо исправить");
+                                        errorTrigger = true;
                                     }
                                 }
                                 hashMap.put(bookProp.getNodeName()+"",bookProp.getChildNodes().item(0).getTextContent()+"");
                             }
                         }
                     }
-                    finalId+=1;
-                    ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
-                    personPriorityQueue.add(new Person(finalId,hashMap.get("name")+"",coordinates,zonedDateTimeNow,Float.parseFloat(hashMap.get("height")+""),hashMap.get("passportId")+"",color,country,location));
+                    if(!errorTrigger){
+                        finalId+=1;
+                        ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
+                        personPriorityQueue.add(new Person(finalId,hashMap.get("name")+"",coordinates,zonedDateTimeNow,Float.parseFloat(hashMap.get("height")+""),hashMap.get("passportId")+"",color,country,location));
+                    }
                 }
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (Exception ex) {
             printInformation("Файл с таким именем не найден/Ошибка в файле, перепроверьте синтаксис");
-            ex.printStackTrace(System.out);
         }
     }
 
