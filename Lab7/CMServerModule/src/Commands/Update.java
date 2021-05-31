@@ -55,7 +55,6 @@ public class Update extends AbstractCommand implements OutputSetup {
                     if (name == null) {
                         printInformation("Invalid input! Try again:");
                     } else if (name.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -63,19 +62,20 @@ public class Update extends AbstractCommand implements OutputSetup {
                             printInformation("Invalid input! Try again:");
                         } catch (Exception e) {
                             person.setName(name);
+                            getManager().updatePersonDataInDataBase(Integer.parseInt(id),"name",name);
                             break;
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    exp.printStackTrace();
+                    printInformation("Возникла ошибка");
                 }
             }
-            printInformation("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)\nВведите x - текущее значение \" + person.getCoordinates().split(\";\")[0] + \"(для сохранения текущего значения, введите YES)");
+            printInformation("Введите coordinates, сначала x, потом y (1<=х<=203 и y-любое)\nВведите x - текущее значение " + person.getCoordinates().split(";")[0] + "(для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -83,6 +83,7 @@ public class Update extends AbstractCommand implements OutputSetup {
                             if (xC < 1 || xC > 203) {
                                 printInformation("Invalid input! Try again:");
                             } else {
+                                getManager().updatePersonDataInDataBase(Integer.parseInt(id),"coordinates",xC+";"+Long.parseLong(person.getCoordinates().split(";")[1]));
                                 person.setCoordinates(xC, Long.parseLong(person.getCoordinates().split(";")[1]));
                                 break;
                             }
@@ -91,15 +92,14 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите y - текущее значение " + person.getCoordinates().split(";")[1] + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -108,8 +108,10 @@ public class Update extends AbstractCommand implements OutputSetup {
                                 printInformation("Invalid input! Try again:");
                             } else {
                                 if (xC != 0) {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"coordinates",xC+";"+yC);
                                     person.setCoordinates(xC, yC);
                                 } else {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"coordinates",Double.parseDouble(person.getCoordinates().split(";")[0])+";"+yC);
                                     person.setCoordinates(Double.parseDouble(person.getCoordinates().split(";")[0]), yC);
                                 }
                                 break;
@@ -119,15 +121,14 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите height - текущее значение " + person.getHeight() + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -135,6 +136,7 @@ public class Update extends AbstractCommand implements OutputSetup {
                             if (height <= 0) {
                                 printInformation("Invalid input! Try again:");
                             } else {
+                                getManager().updatePersonDataInDataBase(Integer.parseInt(id),"height",height+"");
                                 person.setHeight(height);
                                 break;
                             }
@@ -143,17 +145,16 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите passportID - текущее значение " + person.getPassportID() + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    passportID = scanner.next();
+                    passportID = getInformation();
                     if (passportID == null) {
                         printInformation("Invalid input! Try again:");
                     } else if (passportID.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -166,6 +167,7 @@ public class Update extends AbstractCommand implements OutputSetup {
                                     printInformation("Человек с таким PassportID уже существует");
                                 }
                             }
+                            getManager().updatePersonDataInDataBase(Integer.parseInt(id),"passportid",passportID+"");
                             person.setPassportID(passportID);
                             break;
                         } catch (Exception e) {
@@ -173,7 +175,7 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите hairColor - текущее значение " + person.getHairColor() + " (для сохранения текущего значения, введите YES)" +
@@ -181,9 +183,8 @@ public class Update extends AbstractCommand implements OutputSetup {
                     "\n"+java.util.Arrays.asList(Color.values()) + "");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else if (temp1 != null) {
                         switch (temp1) {
@@ -207,11 +208,12 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                     if (color != null) {
+                        getManager().updatePersonDataInDataBase(Integer.parseInt(id),"haircolor",color+"");
                         person.setHairColor(color);
                         break;
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите nationality - текущее значение " + person.getNationality() + " (для сохранения текущего значения, введите YES)" +
@@ -219,9 +221,8 @@ public class Update extends AbstractCommand implements OutputSetup {
                     "\n"+java.util.Arrays.asList(Country.values()) + "");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else if (temp1 != null) {
                         switch (temp1) {
@@ -245,20 +246,20 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                     if (country != null) {
+                        getManager().updatePersonDataInDataBase(Integer.parseInt(id),"nationality",country+"");
                         person.setNationality(country);
                         break;
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите location, сначала x, потом y, потом name (х!=0 и y-любое, name-непустое)\n" +
                     "Введите x - текущее значение " + person.getLocation().split(";")[0] + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -266,6 +267,7 @@ public class Update extends AbstractCommand implements OutputSetup {
                             if (xL == 0) {
                                 printInformation("Invalid input! Try again:");
                             } else {
+                                getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",xL+";"+Double.parseDouble(person.getLocation().split(";")[1])+";"+person.getLocation().split(";")[2]);
                                 person.setLocation(xL, Double.parseDouble(person.getLocation().split(";")[1]), person.getLocation().split(";")[2]);
                                 break;
                             }
@@ -274,22 +276,23 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите y - текущее значение " + person.getLocation().split(";")[1] + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
-                            yL = Long.parseLong(temp1);
+                            yL = Double.parseDouble(temp1);
                             if (xL != 0) {
+                                getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",xL+";"+yL+";"+person.getLocation().split(";")[2]);
                                 person.setLocation(xL, yL, person.getLocation().split(";")[2]);
                             } else {
+                                getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",Double.parseDouble(person.getLocation().split(";")[0])+";"+yL+";"+person.getLocation().split(";")[2]);
                                 person.setLocation(Double.parseDouble(person.getLocation().split(";")[0]), yL, person.getLocation().split(";")[2]);
                             }
                             break;
@@ -298,17 +301,16 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
             printInformation("Введите name - текущее значение " + person.getLocation().split(";")[2] + " (для сохранения текущего значения, введите YES)");
             while (true) {
                 try {
-                    temp1 = scanner.next();
+                    temp1 = getInformation();
                     if (temp1 == null) {
                         printInformation("Invalid input! Try again:");
                     } else if (temp1.equals("YES")) {
-                        printInformation("Сохранено текущее значение");
                         break;
                     } else {
                         try {
@@ -317,14 +319,18 @@ public class Update extends AbstractCommand implements OutputSetup {
                         } catch (Exception e) {
                             if (xL != 0) {
                                 if (yL != 0) {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",xL+";"+yL+";"+temp1);
                                     person.setLocation(xL, yL, temp1);
                                 } else {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",xL+";"+Double.parseDouble(person.getLocation().split(";")[1])+";"+temp1);
                                     person.setLocation(xL, Double.parseDouble(person.getLocation().split(";")[1]), temp1);
                                 }
                             } else {
                                 if (yL != 0) {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",Double.parseDouble(person.getLocation().split(";")[0])+";"+yL+";"+temp1);
                                     person.setLocation(Double.parseDouble(person.getLocation().split(";")[0]), yL, temp1);
                                 } else {
+                                    getManager().updatePersonDataInDataBase(Integer.parseInt(id),"location",Double.parseDouble(person.getLocation().split(";")[0])+";"+Double.parseDouble(person.getLocation().split(";")[1])+";"+temp1);
                                     person.setLocation(Double.parseDouble(person.getLocation().split(";")[0]), Double.parseDouble(person.getLocation().split(";")[1]), temp1);
                                 }
                             }
@@ -332,9 +338,10 @@ public class Update extends AbstractCommand implements OutputSetup {
                         }
                     }
                 } catch (Exception exp) {
-                    printInformation("Invalid input! Try again:");
+                    printInformation("Возникла ошибка");
                 }
             }
+
             return "Элемент успешно добавлен.";
         }catch (Exception e){
             return "Синтаксическая ошибка. Не удалось обновить элемент.";

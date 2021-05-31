@@ -1,6 +1,7 @@
 package Commands;
 
 import Controller.CollectionManager;
+import DataBaseUtility.PeopleDataBase;
 
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public abstract class AbstractCommand {
 
     private CollectionManager manager; //Позволяет изменить коллекцию.
     private String description; //Содержит краткое руководство к команде.
-
+    private PeopleDataBase peopleDataBase = new PeopleDataBase();
     public AbstractCommand(CollectionManager manager) {
         this.manager = manager;
     }

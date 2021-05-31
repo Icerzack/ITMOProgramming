@@ -5,6 +5,7 @@ import Controller.OutputSetup;
 import Controller.ServerSide;
 import Model.*;
 
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.FormatterClosedException;
@@ -253,6 +254,12 @@ public class Add extends AbstractCommand implements OutputSetup {
             CollectionManager.finalId +=1;
             int id = CollectionManager.finalId;
             ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.of("UTC"));
+            try {
+                getManager().addPersonToDataBase(name,coordinates,zonedDateTimeNow,height,passportID+"",color,country,location,ServerSide.activeUsers.get(ServerSide.incoming+""));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return "Произошла ошибка добавления человека в базу данных.";
+            }
             getManager().getPeople().add(new Person(id,name,coordinates,zonedDateTimeNow,height,passportID+"",color,country,location,ServerSide.activeUsers.get(ServerSide.incoming+"")));
             return "Элемент успешно добавлен.";
     }

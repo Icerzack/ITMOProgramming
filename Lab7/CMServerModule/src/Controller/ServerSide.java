@@ -11,11 +11,8 @@ import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
-import java.util.concurrent.RecursiveTask;
 
-public class ServerSide extends RecursiveAction implements Runnable{
+public class ServerSide implements Runnable{
 
     private final CollectionManager serverCollection;
     public static Socket incoming=null;
@@ -67,7 +64,7 @@ public class ServerSide extends RecursiveAction implements Runnable{
             ServerSide.sendToClient = sendToClient;
             ServerSide.getFromClient = getFromClient;
             authUser();
-            sendToClient.writeObject("Соединение установлено.\nВы можете вводить команды.");
+            sendToClient.writeObject("Соединение установлено.\nВы можете вводить команды. Ваш поток: "+Thread.currentThread().getId());
             AbstractCommand errorCommand = new AbstractCommand(null) {
                 @Override
                 public String execute() {
@@ -99,11 +96,6 @@ public class ServerSide extends RecursiveAction implements Runnable{
         }
     }
 
-    @Override
-    protected void compute() {
-        run();
-    }
-
     public static void sendMessage(String message){
         try {
             sendToClient.writeObject(message);
@@ -116,7 +108,7 @@ public class ServerSide extends RecursiveAction implements Runnable{
         try {
             return getFromClient.readObject().toString();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Пользователь прервал выполнение команды.");
         }
         return "";
     }
@@ -193,4 +185,5 @@ public class ServerSide extends RecursiveAction implements Runnable{
             e.printStackTrace();
         }
     }
+
 }

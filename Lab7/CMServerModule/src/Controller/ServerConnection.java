@@ -29,27 +29,24 @@ public class ServerConnection {
                 }
             });
 
-            Map hashMap = new HashMap();
-            hashMap.put("Collman_Path","file.xml");
-            try {
-                setEnv((Map<String, String>) hashMap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            Map hashMap = new HashMap();
+//            hashMap.put("Collman_Path","file.xml");
+//            try {
+//                setEnv((Map<String, String>) hashMap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             serverCollection = new CollectionManager(System.getenv("Collman_Path"));
-
             pointer.setDaemon(true);
             pointer.start();
             while (true) {
                 Socket incoming = server.accept();
                 pointer.interrupt();
-                ForkJoinPool pool =  new ForkJoinPool();
                 System.out.println(incoming + " подключился к серверу.");
-
-//                Runnable r = new ServerSide(serverCollection, incoming);
-//                Thread t = new Thread(r);
-                pool.invoke(t);
-//                t.start();
+                ForkJoinPool pool = new ForkJoinPool();
+                Runnable r = new ServerSide(serverCollection, incoming);
+                Thread t = new Thread(r);
+                pool.execute(t);
             }
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
